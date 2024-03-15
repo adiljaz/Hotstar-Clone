@@ -15,6 +15,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int activeIndex = 0;
 
+  List trendingmovies = [];
+  final String apikey = '';
+  final readaccesstoken = '';
+
   @override
   Widget build(BuildContext context) {
     final mediaquerry = MediaQuery.of(context).size;
@@ -28,11 +32,10 @@ class _HomeState extends State<Home> {
                 Stack(
                   children: [
                     CarouselSlider.builder(
-                      
                       itemCount: 10,
                       itemBuilder: (context, index, pageviewindex) {
                         return Container(
-                          height:100,
+                          height: 100,
                           width: double.infinity,
                           color: Colors.red,
                           child: Text(index.toString()),
@@ -61,7 +64,6 @@ class _HomeState extends State<Home> {
                       left: 320,
                       top: 20,
                     ),
-                  
                   ],
                 ),
                 SizedBox(
@@ -124,23 +126,22 @@ class _HomeState extends State<Home> {
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.all(2),
-                        itemCount: 30, 
-                    
-                    
+                        itemCount: 30,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Container(
                               height: 55,
-                              width: 110 ,
+                              width: 110,
                               color: Colors.green,
                             ),
                           );
-                    
                         }),
                   ),
                 ),
+
+                
               ],
             ),
           )),

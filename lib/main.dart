@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hostar_clone_1/home.dart';
+
+import 'package:hostar_clone_1/splash.dart';
 
 void main(){
   runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       title: 'Hotstar',
-      home:Home() ,
+      home:SplashSCreen() ,
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
     );
