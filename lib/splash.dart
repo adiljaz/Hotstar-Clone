@@ -32,7 +32,7 @@ class _SplashSCreenState extends State<SplashSCreen> {
   }
 
   void nextTo(){
-    Future.delayed(Duration(seconds:2,),(){
+    Future.delayed(Duration(seconds:3,),(){
       
           Navigator.of(context).push(MaterialPageRoute (   builder: (context)=>Home( )));
 
