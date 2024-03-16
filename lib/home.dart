@@ -1,8 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
+import 'package:hostar_clone_1/api/api_service.dart';
+import 'package:hostar_clone_1/bannerCarosal/baner.dart';
 import 'package:hostar_clone_1/colors/colors.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tmdb_api/tmdb_api.dart';
+import 'package:hostar_clone_1/controller/controler.dart';
+
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -13,7 +15,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int activeIndex = 0;
-  List trendingmovies = [];
   List topratedmovies = [];
   List tv = [];
   List upcomingmovies = [];
@@ -25,26 +26,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    loadMovies();
-  }
-
-  loadMovies() async {
-    TMDB tmdbwithCustomLogs = TMDB(ApiKeys(apikey, readaccesstoken),
-        logConfig: ConfigLogger(
-          showLogs: true,
-          showErrorLogs: true,
-        ));
-
-    Map trendingResults = await tmdbwithCustomLogs.v3.trending.getTrending();
-    Map topratedresult = await tmdbwithCustomLogs.v3.movies.getTopRated();
-    Map tvresult = await tmdbwithCustomLogs.v3.tv.getPopular();
-    Map upcomingresult = await tmdbwithCustomLogs.v3.movies.getUpcoming();
-    setState(() {
-      trendingmovies = trendingResults['results'];
-      topratedmovies = topratedresult['results'];
-      tv = tvresult['results'];
-      upcomingmovies = upcomingresult['results'];
-    });
+    trendingMovies();
   }
 
   @override
@@ -58,54 +40,11 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (trendingmovies.isNotEmpty)
-                Stack(
-                  children: [
-                    CarouselSlider.builder(
-                      itemCount: trendingmovies.length,
-                      itemBuilder: (context, index, pageviewindex) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 7),
-                          height: 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500' +
-                                      trendingmovies[index]['poster_path'],
-                                ),
-                                fit: BoxFit.fill),
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        aspectRatio: 15 / 17,
-                        autoPlay: true,
-                        viewportFraction: 0.8,
-                        autoPlayInterval: Duration(seconds: 2),
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            activeIndex = index;
-                          });
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      child: Image.asset(
-                        'assets/logo.png',
-                        height: 150,
-                        width: 150,
-                      ),
-                      right: 250,
-                      bottom: 305,
-                    ),
-                    Positioned(
-                      child: Icon(Icons.cast),
-                      left: 320,
-                      top: 20,
-                    ),
-                  ],
-                ),
+              MovieScreen(
+                  futurefunction: trendingMovies(),
+                  valuenotifier: trendingmovies),
+
+                  
               SizedBox(height: mediaquery.height * 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,8 +85,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              SizedBox(height: mediaquery.height * 0.015),
-              buildIndicator(),
+             
               Padding(
                 padding: const EdgeInsets.only(left: 7),
                 child: Text(
@@ -165,21 +103,22 @@ class _HomeState extends State<Home> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.all(2),
-                    itemCount: topratedmovies.length,
+                    itemCount: upcomingmovies.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      if (topratedmovies.isNotEmpty) {
+                      if (upcomingmovies.isNotEmpty) {
                         return Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Container(
+                            color: Colors.green,
                             height: 55,
                             width: 110,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(3),
                                 image: DecorationImage(
                                     image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/w500' +
-                                          topratedmovies[index]['poster_path'],
+                                      imageUrl +
+                                          upcomingmovies[index]['poster_path'],
                                     ),
                                     fit: BoxFit.fill)),
                           ),
@@ -198,18 +137,5 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget buildIndicator() {
-    return Center(
-      child: AnimatedSmoothIndicator(
-        effect: ScrollingDotsEffect(
-          dotWidth: 6,
-          dotHeight: 6,
-          activeDotColor: Colors.white,
-          dotColor: Colors.grey,
-        ),
-        activeIndex: activeIndex,
-        count: 8,
-      ),
-    );
-  }
+ 
 }
