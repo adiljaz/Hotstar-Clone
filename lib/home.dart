@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:hostar_clone_1/api/api_service.dart';
 import 'package:hostar_clone_1/bannerCarosal/baner.dart';
 import 'package:hostar_clone_1/colors/colors.dart';
 import 'package:hostar_clone_1/controller/controler.dart';
+import 'package:hostar_clone_1/flatbaner.dart';
+import 'package:hostar_clone_1/model/moviesmodel.dart';
 
 
 class Home extends StatefulWidget {
@@ -15,9 +16,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int activeIndex = 0;
-  List topratedmovies = [];
-  List tv = [];
-  List upcomingmovies = [];
 
   final String apikey = '9280f0d6b5fe07ce79819ad96f9a2fa0';
   final readaccesstoken =
@@ -41,10 +39,9 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MovieScreen(
-                  futurefunction: trendingMovies(),
-                  valuenotifier: trendingmovies),
-
-                  
+                futurefunction: trendingMovies(),
+                valuenotifier: trendingmovies,
+              ),
               SizedBox(height: mediaquery.height * 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +82,6 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-             
               Padding(
                 padding: const EdgeInsets.only(left: 7),
                 child: Text(
@@ -96,46 +92,22 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Container(
-                height: 150,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 7),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.all(2),
-                    itemCount: upcomingmovies.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      if (upcomingmovies.isNotEmpty) {
-                        return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Container(
-                            color: Colors.green,
-                            height: 55,
-                            width: 110,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                      imageUrl +
-                                          upcomingmovies[index]['poster_path'],
-                                    ),
-                                    fit: BoxFit.fill)),
-                          ),
-                        );
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                ),
-              ),
+              SizedBox(height: mediaquery.height * 0.01),
+              // Container(width: 200,height: 150,color: Colors.orange,
+              // // child:MoviesModel(latestmovies: trendingmovies, futurefunction: trendingMovies()) ,
+              // )
+              MoviesModel(latestmovies: latestmovies, futurefunction: latestMovies()),
+
+              Padding(
+                padding:  EdgeInsets.all(10.0),
+                child:MovieBanner(topratedmovies: topratedmovies, futurefunction: toprated()),
+              )
             ],
           ),
         ),
       ),
     );
   }
-
- 
 }
+
+

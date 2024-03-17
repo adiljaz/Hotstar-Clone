@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hostar_clone_1/home.dart';
+import 'package:hostar_clone_1/bottom.dart';
 
 class SplashSCreen extends StatefulWidget {
   const SplashSCreen({super.key});
@@ -9,15 +9,14 @@ class SplashSCreen extends StatefulWidget {
 }
 
 class _SplashSCreenState extends State<SplashSCreen> {
-@override
+  @override
   void initState() {
     // TODO: implement initState
-    
+
     super.initState();
-    nextTo(); 
+    nextTo();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,19 +24,22 @@ class _SplashSCreenState extends State<SplashSCreen> {
         child: Container(
           height: double.infinity,
           width: double.infinity,
-          child: Image.asset('assets/newsplash.jpg',fit: BoxFit.cover,),
+          child: Image.asset(
+            'assets/newsplash.jpg',
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
   }
 
-  void nextTo(){
-    Future.delayed(Duration(seconds:3,),(){
-      
-          Navigator.of(context).push(MaterialPageRoute (   builder: (context)=>Home( )));
-
+  void nextTo() {
+    Future.delayed(
+        Duration(
+          seconds: 3,
+        ), () {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => BottomNaavigation()));
     });
-    
-
   }
 }
