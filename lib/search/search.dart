@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hostar_clone_1/api/api_service.dart';
 import 'package:hostar_clone_1/colors/colors.dart';
 import 'package:hostar_clone_1/controller/controler.dart';
 import 'package:hostar_clone_1/moviesSearch.dart';
-import 'package:hostar_clone_1/search/searchdisplay.dart';
+import 'package:hostar_clone_1/search/debouncer.dart';
 import 'package:hostar_clone_1/searchfor.dart';
 import 'package:hostar_clone_1/view.dart';
 
@@ -15,6 +17,9 @@ class SearchScreen extends StatefulWidget {
 }
 
 TextEditingController searchController = TextEditingController();
+
+
+final Debouncer _debouncer= Debouncer(delayed: Duration(milliseconds: 500));
 
 class _SearchScreenState extends State<SearchScreen> {
   @override
@@ -31,13 +36,12 @@ class _SearchScreenState extends State<SearchScreen> {
               height: mediaquery.size.height * 0.1,
             ),
             TextFormField(
-              style: TextStyle(color: Colors.black,fontWeight:FontWeight.w600),
-              
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
               controller: searchController,
               decoration: InputDecoration(
                 fillColor: Color.fromARGB(255, 255, 254, 254),
                 filled: true,
-                
                 prefixIcon: Icon(
                   Icons.search,
                   color: Colors.black,
@@ -59,7 +63,10 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               onChanged: (value) {
                 isLoading.value = true;
-                searchMovies(value);
+               _debouncer.run(() {
+                 searchMovies(value);
+                
+               });
               },
             ),
             SizedBox(
@@ -155,32 +162,79 @@ class _SearchScreenState extends State<SearchScreen> {
                     return ValueListenableBuilder(
                       valueListenable: searchMovie,
                       builder: (context, value, child) {
-                        if(value.isEmpty){
-                           return    SearchMovies(latestmovies: latestmovies, futurefunction: latestMovies());
-
+                        if (value.isEmpty) {
+                          return SearchMovies(
+                              latestmovies: latestmovies,
+                              futurefunction: latestMovies());
                         }
-                        return  ListView.builder(
+                        return ListView.builder(
                           itemCount: searchMovie.value.length,
                           itemBuilder: (context, index) {
-                            
-                           if(searchMovie.value.isEmpty){
-                            return Center(child: const Text('No data'));
-                           }else{
-                             return GestureDetector(
-                              onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ViewScreen(index: index, valueNotifier:searchMovie) )); 
-                              },
-                              child: Container(
-                                height: 200,
-                                width: double.infinity,
-                                decoration:BoxDecoration(image: DecorationImage(image: NetworkImage(imageUrl+value[index]['poster_path']))),
-                                child: Text(value[index]['title']),
-                              ),
-                            );
-                           }
+                            if (searchMovie.value.isEmpty) {
+                              return Center(child: const Text('No data'));
+                            } else {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ViewScreen(
+                                            index: index,
+                                            valueNotifier: searchMovie,
+                                          )));
+                                },
+                                child: SizedBox(
+
+                                  width: double.infinity,
+                                  child: Padding( 
+                                    padding: const EdgeInsets.only(left:10,bottom: 10 ),
+                                    child: Row(
+                                    
+                                      children: [
+                                    
+                                         Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5),
+                                            image: DecorationImage(
+                                              
+                                              image: NetworkImage(
+                                                imageUrl +
+                                                    value[index]['poster_path'],
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          height: 100,
+                                          width: 100 ,
+                                          
+                                        ),
+                                        SizedBox(width: 10,),
+                                        SizedBox (
+                                          width: mediaquery.size.width*0.5,
+                                          child: Text(
+                                            
+                                            
+                                           
+                                                value[index]['title'],
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                        ),
+                                            
+                                            SizedBox(width: mediaquery.size.width*0.15,  child: Icon(Icons.play_circle,size: 30,))
+                                    
+                                       
+                                        
+                                      ],
+                                      
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
                           },
                         );
-                        
                       },
                     );
                   }
