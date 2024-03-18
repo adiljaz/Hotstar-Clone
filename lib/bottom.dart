@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hostar_clone_1/downloads.dart';
+
 import 'package:hostar_clone_1/home.dart';
-import 'package:hostar_clone_1/myspace.dart';
 import 'package:hostar_clone_1/news&hot.dart';
-import 'package:hostar_clone_1/search.dart';
+import 'package:hostar_clone_1/search/search.dart';
 
 class BottomNaavigation extends StatefulWidget {
   const BottomNaavigation({super.key});
@@ -18,8 +17,7 @@ final pages = [
   Home(),
   SearchScreen(),
   Newsandhot(),
-  Downloads(),
-  MySpace(),
+
 ];
 
 class _BottomNaavigationState extends State<BottomNaavigation> {
@@ -45,10 +43,9 @@ class _BottomNaavigationState extends State<BottomNaavigation> {
                   Icons.home,
                 ),
                 label: 'Home',),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'home'),
-            BottomNavigationBarItem(icon: Icon(Icons.local_fire_department), label: 'home'),
-            BottomNavigationBarItem(icon: Icon(Icons.download_sharp), label: 'home'),
-            BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.local_fire_department), label: 'Hot&News'),
+          
           ]),
     );
   }

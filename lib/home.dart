@@ -6,7 +6,6 @@ import 'package:hostar_clone_1/controller/controler.dart';
 import 'package:hostar_clone_1/flatbaner.dart';
 import 'package:hostar_clone_1/model/moviesmodel.dart';
 
-
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
@@ -96,12 +95,38 @@ class _HomeState extends State<Home> {
               // Container(width: 200,height: 150,color: Colors.orange,
               // // child:MoviesModel(latestmovies: trendingmovies, futurefunction: trendingMovies()) ,
               // )
-              MoviesModel(latestmovies: latestmovies, futurefunction: latestMovies()),
+              MoviesModel(
+                  latestmovies: latestmovies, futurefunction: latestMovies()),
 
               Padding(
-                padding:  EdgeInsets.all(10.0),
-                child:MovieBanner(topratedmovies: topratedmovies, futurefunction: toprated()),
-              )
+                padding: EdgeInsets.only(left: 10,right: 10, top: 7 ),
+                child: MovieBanner(
+                    topratedmovies: topratedmovies, futurefunction: toprated()),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10,bottom: 5),
+                child: Text(
+                  'Upcoming movies ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+
+              MoviesModel(futurefunction: comingSoon(), latestmovies: cominsoongmovies),
+              Padding(
+                padding: const EdgeInsets.only(left: 10,bottom: 5),
+                child: Text(
+                  'Trending Movies',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                
+              ),
+              MoviesModel(latestmovies: trendingmovies, futurefunction: trendingMovies())
             ],
           ),
         ),
@@ -109,5 +134,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-

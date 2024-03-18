@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:io';
 import 'package:hostar_clone_1/controller/controler.dart';
+
 import 'package:http/http.dart' as http;
 
 final String apikey = '9280f0d6b5fe07ce79819ad96f9a2fa0';
@@ -76,3 +77,51 @@ Future<void> comingSoon() async {
     stdout.write(error);
   }
 }
+
+Future<void> searchMovies(String query) async {
+  try {
+    isLoading.value=true; 
+    searchMovie.value.clear();
+    final url =
+        'https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=$query';
+    final uri = Uri.parse(url);
+    final res = await http.get(uri);
+    if (res.statusCode == 200) {
+      final body = res.body;
+      final items = jsonDecode(body);
+
+      searchMovie.value = items['results'];
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      searchMovie.notifyListeners();
+      isLoading.value=false; 
+      isLoading.notifyListeners(); 
+      
+    }
+  } catch (error) {
+    stdout.write(error);
+  }
+}
+
+
+Future<void> tvshowsget() async {
+  try {
+    final url =
+        'https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=horror';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final body = response.body;
+      final items = jsonDecode(body);
+      cominsoongmovies.value = items['results'];
+      print(items['results']);
+    }
+  } catch (error) {
+    stdout.write(error);
+  }
+}
+
+
+// https://api.themoviedb.org/3/search/movie?api_key=YOUR_API_KEY&query=horror
+
+
+

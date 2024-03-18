@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hostar_clone_1/api/api_service.dart';
+import 'package:hostar_clone_1/view.dart';
 
 // ignore: must_be_immutable
 class HotModel extends StatelessWidget {
@@ -30,14 +32,21 @@ class HotModel extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: 200,
-                              width: double.infinity,
-                              color: Colors.amber,
-                              child: Image.network(
-                                imageUrl +
-                                    valuenotifier.value[index]['backdrop_path'],
-                                fit: BoxFit.cover,
+                            GestureDetector(
+                              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return ViewScreen(index: index, valueNotifier: valuenotifier ); 
+                }));
+              },
+                              child: Container(
+                                height: 200,
+                                width: double.infinity,
+                                
+                                child: Image.network(
+                                  imageUrl +
+                                      valuenotifier.value[index]['backdrop_path'],
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             Container(

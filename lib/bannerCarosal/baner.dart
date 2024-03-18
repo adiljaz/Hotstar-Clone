@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hostar_clone_1/api/api_service.dart';
+import 'package:hostar_clone_1/view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 // ignore: must_be_immutable
@@ -36,18 +37,25 @@ class _MovieScreenState extends State<MovieScreen> {
                     CarouselSlider.builder(
                       itemCount: widget.valuenotifier.value.length,
                       itemBuilder: (context, index, pageviewindex) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 7),
-                          height: 100,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                  imageUrl +
-                                      widget.valuenotifier.value[index]
-                                          ['poster_path'],
-                                ),
-                                fit: BoxFit.fill),
+                        return GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder:(context){
+                              return ViewScreen(index: index, valueNotifier: widget.valuenotifier); 
+                            })); 
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 7),
+                            height: 100,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                    imageUrl +
+                                        widget.valuenotifier.value[index]
+                                            ['poster_path'],
+                                  ),
+                                  fit: BoxFit.fill),
+                            ),
                           ),
                         );
                       },
