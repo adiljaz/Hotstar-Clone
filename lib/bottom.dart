@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hostar_clone_1/colors/colors.dart';
 
 import 'package:hostar_clone_1/home.dart';
 import 'package:hostar_clone_1/news&hot.dart';
@@ -26,8 +27,9 @@ class _BottomNaavigationState extends State<BottomNaavigation> {
     return Scaffold(
       body: pages[selectedindex],
       bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Color.fromARGB(255, 196, 221, 255),
-          unselectedItemColor: Color.fromARGB(255, 35, 90, 120),
+        backgroundColor:const Color.fromARGB(255, 20, 20, 20),
+          selectedItemColor: Color.fromARGB(255, 255, 255, 255),
+          unselectedItemColor: Color.fromARGB(255, 19, 74, 103),
           showSelectedLabels: true,
           showUnselectedLabels: true,
           currentIndex: selectedindex,
