@@ -32,7 +32,7 @@ class Tvshows extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     child: Container(
-                      width: 120,
+                      width: 120, 
                     
                       decoration: BoxDecoration(
                           image: DecorationImage(
